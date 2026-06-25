@@ -1,0 +1,23 @@
+# GPT Learning Project - Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core ML framework (MPS-enabled for Apple Silicon)
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Numerical computing
+numpy>=1.24.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Progress bars
+tqdm>=4.65.0
+
+# Jupyter for experiments (optional)
+jupyter>=1.0.0
+ipykernel>=6.22.0
+
+# Code quality (optional)
+black>=23.0.0
