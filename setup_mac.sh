@@ -79,12 +79,9 @@ source .venv/bin/activate
 # Upgrade pip first
 pip install --upgrade pip
 
-# Install PyTorch with MPS support (Apple Silicon optimized)
-echo "Installing PyTorch (this may take a few minutes)..."
-pip install torch torchvision torchaudio
-
-# Install other dependencies
-pip install numpy matplotlib tqdm jupyter
+# Install from requirements.txt (PyTorch + other dependencies)
+echo "Installing from requirements.txt (this may take a few minutes)..."
+pip install -r requirements.txt
 
 echo "✅ Dependencies installed"
 echo ""

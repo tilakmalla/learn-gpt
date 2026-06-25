@@ -2,9 +2,8 @@
 # Install with: pip install -r requirements.txt
 
 # Core ML framework (MPS-enabled for Apple Silicon)
+# Note: torchvision/torchaudio removed - not needed for text-only project
 torch>=2.0.0
-torchvision>=0.15.0
-torchaudio>=2.0.0
 
 # Numerical computing
 numpy>=1.24.0
