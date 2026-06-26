@@ -9,13 +9,25 @@ SAMPLING STRATEGIES:
 3. Top-k: Sample from only the k most likely tokens
 4. Top-p (Nucleus): Sample from smallest set with cumulative prob >= p
 
-Run this file for interactive generation:
-    python generate.py
+BEFORE RUNNING:
+    You must train the model first:
+    python train.py
 
-Or use programmatically:
-    from generate import Generator
-    gen = Generator('checkpoints/best_model.pt')
-    print(gen.generate("ROMEO:", max_tokens=200))
+RUN THIS FILE:
+    python generate.py -i                    # Interactive mode
+    python generate.py -p "Newton" -n 200   # For physics dataset
+    python generate.py -p "def " -n 200     # For python dataset
+    python generate.py --demo               # Compare sampling strategies
+
+EXAMPLE PROMPTS BY DATASET:
+    Physics:     "Newton", "Energy", "The force", "Momentum", "Gravity"
+    Python:      "def ", "class ", "for i in", "if __name__"
+    Shakespeare: "ROMEO:", "To be", "What light"
+
+HOW TO EVALUATE:
+    - Physics: Does the output make scientific sense?
+    - Python: Is the syntax valid? Does indentation work?
+    - Shakespeare: Does it sound like old English dialogue?
 """
 
 import torch

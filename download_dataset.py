@@ -1,12 +1,31 @@
 """
-Alternative Datasets for GPT Training
-=====================================
+STEP 1: Download Training Dataset
+====================================
 Choose a dataset you can actually understand and evaluate!
 
-Usage:
-    python download_dataset.py --list           # See all options
-    python download_dataset.py --dataset python # Download Python code
-    python download_dataset.py --dataset physics # Download physics text
+This is the FIRST step before training. Run this to download your dataset.
+
+AVAILABLE DATASETS:
+    physics     - Physics concepts (recommended for physics background)
+    python      - Python code (easy to see if output is valid)
+    shakespeare - Original Shakespeare (old English, harder to evaluate)
+    simple_english - Simple sentences (general, easy to read)
+
+USAGE:
+    python download_dataset.py --list            # See all options with details
+    python download_dataset.py --dataset physics # Download physics (RECOMMENDED)
+    python download_dataset.py --dataset python  # Download Python code
+
+AFTER DOWNLOADING:
+    python data_pipeline.py    # Test tokenization (Phase 2)
+    python gpt_model.py        # Test model architecture (Phase 3)
+    python train.py            # Train the model (Phase 4) ~20-30 min
+    python generate.py -i      # Generate text (Phase 5)
+
+EXAMPLE PROMPTS BY DATASET:
+    Physics:     "Newton", "Energy", "The force", "Momentum"
+    Python:      "def ", "class ", "for i in range"
+    Shakespeare: "ROMEO:", "To be or not"
 """
 
 import os

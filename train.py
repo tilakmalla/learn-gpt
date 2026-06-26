@@ -11,10 +11,26 @@ KEY CONCEPTS:
 5. Validation: Check if model generalizes (not just memorizing)
 6. Checkpointing: Save progress to resume later
 
-Run this file to train the model:
+BEFORE RUNNING:
+    1. Download a dataset:
+       python download_dataset.py --dataset physics   # Recommended for physics background
+       python download_dataset.py --dataset python    # Easy to evaluate output
+    
+    2. Test the data pipeline (optional):
+       python data_pipeline.py
+
+RUN THIS FILE:
     python train.py
 
-Expected training time: ~20-30 minutes on M1 Mac
+EXPECTED OUTPUT:
+    - Loss should decrease from ~4.0 to ~1.0-1.5 over 5000 iterations
+    - Training takes ~20-30 minutes on M1 Mac
+    - Model saved to checkpoints/best_model.pt
+
+AFTER TRAINING:
+    python generate.py -i                    # Interactive generation
+    python generate.py -p "Newton" -n 200   # For physics dataset
+    python generate.py -p "def " -n 200     # For python dataset
 """
 
 import torch

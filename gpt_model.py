@@ -25,8 +25,16 @@ ARCHITECTURE OVERVIEW:
          ↓
     Logits (probability distribution over next token)
 
-Run this file to see the model architecture:
+RUN THIS FILE:
     python gpt_model.py
+
+EXPECTED OUTPUT:
+    - Model configuration and parameter count (~10.8M parameters)
+    - Forward pass test showing input/output shapes
+    - Initial loss ~4.17 (random guessing)
+
+NEXT STEP:
+    python train.py    # Train the model (Phase 4)
 """
 
 import torch

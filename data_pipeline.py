@@ -9,8 +9,19 @@ KEY CONCEPTS:
 3. Context Window: How much text the model "sees" at once
 4. Batching: Processing multiple sequences in parallel for efficiency
 
-Run this file directly to see the pipeline in action:
+BEFORE RUNNING:
+    1. Download a dataset first:
+       python download_dataset.py --dataset physics   # For physics text
+       python download_dataset.py --dataset python    # For Python code
+       python download_dataset.py --dataset shakespeare  # Original
+
+RUN THIS FILE:
     python data_pipeline.py
+
+EXPECTED OUTPUT:
+    - Vocabulary size and characters
+    - Tokenizer demo (encode/decode)
+    - Batch shapes and prediction task explanation
 """
 
 import torch
@@ -32,15 +43,24 @@ def load_text(filepath: str) -> str:
     """
     Load raw text from file.
     
-    Shakespeare dataset is ~1MB, ~1 million characters.
+    Dataset should be ~1MB, ~1 million characters.
     Perfect size for learning - small enough to train quickly,
     large enough to learn interesting patterns.
+    
+    Available datasets:
+    - physics: Physics concepts (recommended for physics background)
+    - python: Python code (easy to evaluate if output is valid)
+    - shakespeare: Original Shakespeare text
+    - simple_english: Simple sentences
     """
     if not os.path.exists(filepath):
         raise FileNotFoundError(
             f"Dataset not found at '{filepath}'.\n"
-            f"Download it with:\n"
-            f"  curl -o {filepath} https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt"
+            f"Download a dataset first:\n"
+            f"  python download_dataset.py --dataset physics    # Physics concepts\n"
+            f"  python download_dataset.py --dataset python     # Python code\n"
+            f"  python download_dataset.py --dataset shakespeare # Shakespeare\n"
+            f"  python download_dataset.py --list               # See all options"
         )
     with open(filepath, 'r', encoding='utf-8') as f:
         text = f.read()

@@ -9,10 +9,19 @@ TOPICS:
 3. Loss Analysis: Training curves and overfitting detection
 4. Token Probability Analysis: What does the model predict?
 
-Run this file for full analysis:
-    python analyze.py
+BEFORE RUNNING:
+    You must train the model first:
+    python train.py
 
-Requires a trained model checkpoint.
+RUN THIS FILE:
+    python analyze.py --experiments                    # Show experiment configs
+    python analyze.py --attention "Newton" --layer 0  # Visualize attention (physics)
+    python analyze.py --attention "def " --layer 0    # Visualize attention (python)
+    python analyze.py --predictions "Energy is"       # Analyze predictions
+
+OUTPUT:
+    - Attention heatmaps saved to analysis/ folder
+    - Shows which tokens the model attends to
 """
 
 import torch
