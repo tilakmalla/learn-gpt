@@ -12,7 +12,7 @@ You have implemented a **Generative Pre-trained Transformer (GPT)** from scratch
 
 The only differences between your model and these are:
 1. **Scale**: Your model has ~10 million parameters. GPT-3 has 175 billion.
-2. **Data**: You trained on 1MB of Shakespeare. GPT-3 trained on hundreds of GB.
+2. **Data**: You trained on 1MB of physics text. GPT-3 trained on hundreds of GB.
 3. **Training time**: You trained for 30 minutes. GPT-3 trained for months on thousands of GPUs.
 
 **But the core architecture is identical.** You understand how the most important AI breakthrough of the decade works.
@@ -21,10 +21,11 @@ The only differences between your model and these are:
 
 # How to Test If Your Model Works
 
-## Step 1: Verify Setup (Phase 1)
+## Step 1: Download Dataset & Verify Setup (Phase 1)
 ```bash
 cd ~/path/to/learn-gpt
 source .venv/bin/activate
+python download_dataset.py --dataset physics   # Download physics text!
 python verify_setup.py
 ```
 
@@ -39,7 +40,7 @@ python data_pipeline.py
 
 **What to look for:**
 - Tokenizer encodes and decodes correctly: `'Hello'` → `[numbers]` → `'Hello'`
-- Vocabulary size should be 65 (Shakespeare's unique characters)
+- Vocabulary size should be ~65-80 (unique characters in physics text)
 
 ## Step 3: Test Model Architecture (Phase 3)
 ```bash
@@ -48,7 +49,7 @@ python gpt_model.py
 
 **What to look for:**
 - Total parameters: ~10,788,929
-- Initial loss: ~4.17 (this is `-log(1/65)` = random guessing among 65 characters)
+- Initial loss: ~4.17 (this is `-log(1/65)` = random guessing among ~65 characters)
 - No errors during forward pass
 
 ## Step 4: Train the Model (Phase 4) - THE MAIN TEST
@@ -73,27 +74,26 @@ python generate.py -i
 ```
 
 **What to look for:**
-- Generated text should look like Shakespeare (character names, dialogue format)
-- Not perfect, but recognizable patterns
+- Generated text should look like physics explanations
+- Not perfect, but recognizable physics terms and sentence structure
 
 **Example of SUCCESS:**
 ```
->>> ROMEO:
-ROMEO:
-What say'st thou? I have seen the day
-That I have worn a visor and could tell
-A whispering tale in a fair lady's ear...
+>>> Newton
+Newton's first law states that an object at rest 
+stays at rest and an object in motion stays in 
+motion unless acted upon by an external force...
 ```
 
 **Example of FAILURE (untrained model):**
 ```
->>> ROMEO:
+>>> Newton
 xK3$)mNz!qR&*vB2...
 ```
 
 ## Step 6: Visualize What the Model Learned (Phase 6)
 ```bash
-python analyze.py --attention "ROMEO:" --layer 0
+python analyze.py --attention "Energy" --layer 0
 ```
 
 **What to look for:**
@@ -107,12 +107,13 @@ python analyze.py --attention "ROMEO:" --layer 0
 ```
 learn-gpt/
 ├── data/
-│   └── input.txt          # Shakespeare dataset (~1MB, ~1 million characters)
+│   └── input.txt          # Physics dataset (~1MB, ~1 million characters)
 ├── checkpoints/
 │   └── best_model.pt      # Your trained model (~40MB)
 ├── analysis/
 │   └── *.png              # Attention visualization images
 │
+├── download_dataset.py    # Phase 1: Download physics/python/other datasets
 ├── data_pipeline.py       # Phase 2: Tokenization & batching
 ├── gpt_model.py           # Phase 3: GPT architecture (THE CORE)
 ├── train.py               # Phase 4: Training loop
@@ -138,7 +139,7 @@ learn-gpt/
 - **Virtual environments** isolate project dependencies
 - **PyTorch** is the deep learning framework (like TensorFlow, but more Pythonic)
 - **MPS (Metal Performance Shaders)** allows M1 Macs to use GPU acceleration
-- **The dataset** is ~1MB of Shakespeare text - small but enough to learn patterns
+- **The dataset** is ~1MB of physics text - small but enough to learn patterns
 
 **Key concept: GPU acceleration**
 ```
@@ -180,12 +181,12 @@ Character-level tokenization (what we use):
   'l' → 50
   'o' → 53
 
-Each unique character gets a unique number (0-64 for Shakespeare)
+Each unique character gets a unique number (0-64 for physics text)
 ```
 
 **Why character-level?**
 - Simple to implement and understand
-- Vocabulary size is small (65 characters)
+- Vocabulary size is small (~65-80 characters)
 - Real GPT uses "subword" tokenization (BPE) with ~50,000 tokens
 
 ### 2. The Prediction Task: Next-Token Prediction
@@ -210,9 +211,9 @@ At position 4: See "Hello", predict "!"
 The model can only "see" 256 characters at a time.
 
 ```
-Text: "To be or not to be, that is the question..."
+Text: "The force equals mass times acceleration..."
 
-Context window: [To be or not to be, that is the qu]  ← 256 chars
+Context window: [The force equals mass times accele]  ← 256 chars
                  ↑                                 ↑
               start                              end
 
@@ -225,11 +226,11 @@ Instead of one sequence at a time, we process 64 sequences simultaneously.
 ```
 Batch (batch_size=64, block_size=256):
 
-Sequence 1: "ROMEO: What light..."    (256 chars)
-Sequence 2: "JULIET: O Romeo..."      (256 chars)
-Sequence 3: "HAMLET: To be or..."     (256 chars)
+Sequence 1:  "Newton's first law..."     (256 chars)
+Sequence 2:  "Energy is conserved..."    (256 chars)
+Sequence 3:  "The momentum of a..."      (256 chars)
 ...
-Sequence 64: "MACBETH: Is this..."    (256 chars)
+Sequence 64: "Gravity is a force..."     (256 chars)
 
 Shape: (64, 256) = 16,384 tokens processed at once!
 ```
@@ -250,7 +251,7 @@ This is the heart of the transformer. You implemented each component from scratc
 ### The Architecture (what happens to input tokens):
 
 ```
-Input: "ROMEO:" → [30, 27, 25, 17, 27, 10]
+Input: "Newton" → [30, 43, 61, 58, 53, 52]
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  1. TOKEN EMBEDDING                                          │
@@ -327,8 +328,8 @@ Instead of one attention pattern, we have 6 heads running in parallel.
 ```
 Head 1: Might learn syntax (subject-verb agreement)
 Head 2: Might learn punctuation patterns
-Head 3: Might learn character names in dialogue
-Head 4: Might learn rhyme patterns
+Head 3: Might learn physics terms (force, energy, mass)
+Head 4: Might learn equation patterns (equals, numbers)
 Head 5: Might learn proximity (nearby words)
 Head 6: Might learn something else entirely
 
@@ -488,11 +489,11 @@ python train.py
 Generate one token at a time, feeding output back as input.
 
 ```
-Start:   "ROMEO:"
-Step 1:  "ROMEO:" → model predicts 'W' → "ROMEO:W"
-Step 2:  "ROMEO:W" → model predicts 'h' → "ROMEO:Wh"
-Step 3:  "ROMEO:Wh" → model predicts 'a' → "ROMEO:Wha"
-Step 4:  "ROMEO:Wha" → model predicts 't' → "ROMEO:What"
+Start:   "Newton"
+Step 1:  "Newton" → model predicts "'" → "Newton'"
+Step 2:  "Newton'" → model predicts 's' → "Newton's"
+Step 3:  "Newton's" → model predicts ' ' → "Newton's "
+Step 4:  "Newton's " → model predicts 'l' → "Newton's l"
 ...continue for max_tokens...
 ```
 
@@ -547,8 +548,8 @@ fewer when confident.
 # Interactive mode
 python generate.py -i
 
-# Single generation
-python generate.py -p "ROMEO:" -n 200 -t 0.8
+# Single generation (physics)
+python generate.py -p "Energy" -n 200 -t 0.8
 
 # Compare strategies
 python generate.py --demo
@@ -601,11 +602,11 @@ This shows the model learned that "sat" relates to "cat" (subject-verb).
 # Show experiment configs
 python analyze.py --experiments
 
-# Visualize attention
-python analyze.py --attention "ROMEO:" --layer 0
+# Visualize attention (physics)
+python analyze.py --attention "Energy" --layer 0
 
 # Analyze predictions
-python analyze.py --predictions "To be or not"
+python analyze.py --predictions "Force equals"
 ```
 
 ---
@@ -616,7 +617,8 @@ python analyze.py --predictions "To be or not"
 # ALWAYS activate virtual environment first!
 source .venv/bin/activate
 
-# Phase 1: Verify your setup works
+# Phase 1: Download dataset & verify setup
+python download_dataset.py --dataset physics   # Get physics data!
 python verify_setup.py
 
 # Phase 2: Test tokenization and batching
@@ -629,14 +631,14 @@ python gpt_model.py
 python train.py
 
 # Phase 5: Generate text (after training)
-python generate.py -i                    # Interactive mode
-python generate.py -p "ROMEO:" -n 200    # Single generation
-python generate.py --demo                # Compare strategies
+python generate.py -i                        # Interactive mode
+python generate.py -p "Newton" -n 200        # Physics prompt
+python generate.py --demo                    # Compare strategies
 
 # Phase 6: Analyze (after training)
 python analyze.py --experiments                    # Show configs
-python analyze.py --attention "ROMEO:" --layer 0  # Visualize attention
-python analyze.py --predictions "To be"           # Analyze predictions
+python analyze.py --attention "Energy" --layer 0  # Visualize attention
+python analyze.py --predictions "Force equals"    # Analyze predictions
 ```
 
 ---
@@ -663,11 +665,11 @@ python analyze.py --predictions "To be"           # Analyze predictions
 │                        YOUR GPT IMPLEMENTATION                       │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
-│  INPUT: "ROMEO:"                                                    │
+│  INPUT: "Newton"                                                    │
 │           ↓                                                         │
 │  ┌─────────────────────────────────────────────────────────────┐   │
 │  │ DATA PIPELINE (data_pipeline.py)                            │   │
-│  │   Tokenize: "ROMEO:" → [30, 27, 25, 17, 27, 10]             │   │
+│  │   Tokenize: "Newton" → [30, 43, 61, 58, 53, 52]             │   │
 │  │   Batch: Combine 64 sequences for parallel processing       │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │           ↓                                                         │
@@ -679,7 +681,7 @@ python analyze.py --predictions "To be"           # Analyze predictions
 │  │     - Multi-Head Self-Attention (6 heads)                   │   │
 │  │     - Feed-Forward Network (384→1536→384)                   │   │
 │  │     - Residual connections + LayerNorm                      │   │
-│  │   Output: Probabilities over 65 characters                  │   │
+│  │   Output: Probabilities over ~65 characters                 │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │           ↓                                                         │
 │  ┌─────────────────────────────────────────────────────────────┐   │
@@ -696,7 +698,7 @@ python analyze.py --predictions "To be"           # Analyze predictions
 │  │   Sampling: Temperature, Top-k, Top-p                       │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │           ↓                                                         │
-│  OUTPUT: "ROMEO: What say'st thou? I have seen..."              │
+│  OUTPUT: "Newton's first law states that an object..."            │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -706,7 +708,7 @@ python analyze.py --predictions "To be"           # Analyze predictions
 | Metric | Value | Meaning |
 |--------|-------|---------|
 | Parameters | 10,788,929 | Learnable numbers in the model |
-| Vocabulary | 65 | Unique characters |
+| Vocabulary | ~65-80 | Unique characters (varies by dataset) |
 | Context window | 256 | Max characters model can "see" |
 | Embedding dim | 384 | Size of token vectors |
 | Attention heads | 6 | Parallel attention patterns |

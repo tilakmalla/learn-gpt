@@ -119,12 +119,12 @@ class Generator:
     Usage:
         gen = Generator('checkpoints/best_model.pt')
         
-        # Simple generation
-        text = gen.generate("ROMEO:", max_tokens=100)
+        # Simple generation (physics dataset)
+        text = gen.generate("Newton", max_tokens=100)
         
         # With parameters
         text = gen.generate(
-            "To be or not to be",
+            "Energy is conserved",
             max_tokens=200,
             temperature=0.8,
             top_k=40,
@@ -386,7 +386,7 @@ def demo_sampling_strategies(gen: Generator):
     """
     Demonstrate different sampling strategies.
     """
-    prompt = "ROMEO:"
+    prompt = "Newton"  # Use physics prompt (change for other datasets)
     
     print("\n" + "="*60)
     print(" Sampling Strategies Comparison")

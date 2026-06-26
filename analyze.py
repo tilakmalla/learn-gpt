@@ -53,7 +53,7 @@ PATTERNS TO LOOK FOR:
 - Diagonal: Tokens attending to themselves
 - Previous token: Strong attention to immediately preceding token
 - Punctuation: Special attention to sentence boundaries
-- Names/entities: Attention to character names in dialogue
+- Keywords: Attention to physics terms like "force", "energy", "mass"
 """
 
 class AttentionVisualizer:
@@ -345,7 +345,7 @@ EXPERIMENTS = {
 
 def count_parameters(config: dict) -> int:
     """Estimate parameter count for a configuration."""
-    vocab_size = 65  # Shakespeare
+    vocab_size = 65  # Approximate (varies by dataset: ~65-80 for text)
     n_embd = config['n_embd']
     n_head = config['n_head']
     n_layer = config['n_layer']
@@ -533,8 +533,8 @@ def main():
     if not args.attention and not args.predictions and not args.experiments:
         print("Usage examples:")
         print("  python analyze.py --experiments")
-        print("  python analyze.py --attention 'ROMEO:' --layer 0")
-        print("  python analyze.py --predictions 'To be or not'")
+        print("  python analyze.py --attention 'Energy' --layer 0")
+        print("  python analyze.py --predictions 'Force equals'")
 
 
 if __name__ == "__main__":
