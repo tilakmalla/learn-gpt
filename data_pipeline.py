@@ -132,8 +132,10 @@ class CharacterTokenizer:
         
         MATH: This is essentially a lookup table.
         f(c) = stoi[c] for each character c
+        
+        Unknown characters (not in vocabulary) are skipped.
         """
-        return [self.stoi[c] for c in text]
+        return [self.stoi[c] for c in text if c in self.stoi]
     
     def decode(self, tokens: list[int]) -> str:
         """
