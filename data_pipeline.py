@@ -47,20 +47,19 @@ def load_text(filepath: str) -> str:
     Perfect size for learning - small enough to train quickly,
     large enough to learn interesting patterns.
     
-    Available datasets:
-    - physics: Physics concepts (recommended for physics background)
-    - python: Python code (easy to evaluate if output is valid)
-    - shakespeare: Original Shakespeare text
-    - simple_english: Simple sentences
+    Physics dataset includes:
+    - Classical Mechanics (Newton's laws, momentum, energy)
+    - Thermodynamics (heat, entropy, temperature)
+    - Waves and Oscillations (sound, light, interference)
+    - Electricity and Magnetism (charge, current, fields)
+    - Modern Physics (relativity, quantum mechanics)
+    - Astrophysics (stars, galaxies, cosmology)
     """
     if not os.path.exists(filepath):
         raise FileNotFoundError(
             f"Dataset not found at '{filepath}'.\n"
-            f"Download a dataset first:\n"
-            f"  python download_dataset.py --dataset physics    # Physics concepts\n"
-            f"  python download_dataset.py --dataset python     # Python code\n"
-            f"  python download_dataset.py --dataset shakespeare # Shakespeare\n"
-            f"  python download_dataset.py --list               # See all options"
+            f"Generate the physics dataset first:\n"
+            f"  python download_dataset.py"
         )
     with open(filepath, 'r', encoding='utf-8') as f:
         text = f.read()

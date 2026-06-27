@@ -1,10 +1,11 @@
-# GPT Model Learning Journey - Master Prompt
+# GPT Model Learning Journey - Physics Dataset
 
 ## Context
 - **Platform**: MacBook Pro M1 (Apple Silicon), 32GB RAM, 1TB SSD
 - **Background**: Advanced mathematics degree, strong linear algebra/matrices foundation
 - **Programming**: Python proficiency
 - **Goal**: Hands-on understanding of GPT architecture through self-implementation
+- **Dataset**: Physics concepts (Classical Mechanics, Thermodynamics, Modern Physics, etc.)
 
 ---
 
@@ -29,21 +30,21 @@ OBJECTIVE: Build a minimal but complete GPT implementation that illuminates thes
 CONSTRAINTS:
 - Use PyTorch with MPS (Metal Performance Shaders) for M1 GPU acceleration
 - Start with character-level tokenization (simplest to understand)
-- Train on a small, digestible dataset (Shakespeare ~1MB is ideal)
+- Train on physics text dataset (~1MB) covering various physics concepts
 - Model should be trainable in <30 minutes on M1
 - Each component must be implemented manually (no HuggingFace transformers initially)
 - Code must be heavily commented explaining the math
 
 DELIVERABLES:
 1. Single-file implementation (~300-400 lines) with inline mathematical explanations
-2. Working model that generates coherent text after training
+2. Working model that generates coherent physics text after training
 3. Visualization of attention patterns
 4. Experiments: vary hyperparameters and observe effects
 
 SUCCESS CRITERIA:
 - Learner can explain each component mathematically
 - Learner can modify architecture and predict effects
-- Generated text shows learned patterns (not random garbage)
+- Generated text shows learned physics patterns (not random garbage)
 ```
 
 ---
@@ -55,7 +56,7 @@ SUCCESS CRITERIA:
 - [ ] Create virtual environment
 - [ ] Install PyTorch with MPS support
 - [ ] Verify GPU acceleration works
-- [ ] Download Shakespeare dataset
+- [ ] Generate physics dataset
 
 ### Phase 2: Data Pipeline (1.5 hours)
 - [ ] Character-level tokenizer implementation

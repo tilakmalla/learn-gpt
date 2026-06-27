@@ -53,7 +53,7 @@ PATTERNS TO LOOK FOR:
 - Diagonal: Tokens attending to themselves
 - Previous token: Strong attention to immediately preceding token
 - Punctuation: Special attention to sentence boundaries
-- Keywords: Attention to physics terms like "force", "energy", "mass"
+- Physics keywords: Attention to terms like "force", "energy", "mass", "Newton"
 """
 
 class AttentionVisualizer:

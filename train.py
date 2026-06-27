@@ -1,7 +1,7 @@
 """
 Phase 4: Training Infrastructure
 =================================
-This module handles training the GPT model.
+This module handles training the GPT model on physics text.
 
 KEY CONCEPTS:
 1. Loss Function: Cross-entropy measures prediction quality
@@ -12,9 +12,8 @@ KEY CONCEPTS:
 6. Checkpointing: Save progress to resume later
 
 BEFORE RUNNING:
-    1. Download a dataset:
-       python download_dataset.py --dataset physics   # Recommended for physics background
-       python download_dataset.py --dataset python    # Easy to evaluate output
+    1. Generate the physics dataset:
+       python download_dataset.py
     
     2. Test the data pipeline (optional):
        python data_pipeline.py
@@ -29,8 +28,8 @@ EXPECTED OUTPUT:
 
 AFTER TRAINING:
     python generate.py -i                    # Interactive generation
-    python generate.py -p "Newton" -n 200   # For physics dataset
-    python generate.py -p "def " -n 200     # For python dataset
+    python generate.py -p "Newton" -n 200   # Generate about Newton's laws
+    python generate.py -p "Energy" -n 200   # Generate about energy
 """
 
 import torch

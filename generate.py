@@ -119,12 +119,12 @@ class Generator:
     Usage:
         gen = Generator('checkpoints/best_model.pt')
         
-        # Simple generation (physics dataset)
+        # Simple generation
         text = gen.generate("Newton", max_tokens=100)
         
         # With parameters
         text = gen.generate(
-            "Energy is conserved",
+            "Energy is",
             max_tokens=200,
             temperature=0.8,
             top_k=40,

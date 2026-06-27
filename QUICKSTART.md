@@ -1,4 +1,4 @@
-# GPT Learning Project - Complete Guide
+# GPT Learning Project - Physics Dataset Guide
 
 ---
 
@@ -21,11 +21,11 @@ The only differences between your model and these are:
 
 # How to Test If Your Model Works
 
-## Step 1: Download Dataset & Verify Setup (Phase 1)
+## Step 1: Generate Dataset & Verify Setup (Phase 1)
 ```bash
 cd ~/path/to/learn-gpt
 source .venv/bin/activate
-python download_dataset.py --dataset physics   # Download physics text!
+python download_dataset.py   # Generate physics dataset
 python verify_setup.py
 ```
 
